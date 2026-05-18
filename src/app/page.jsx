@@ -45,7 +45,7 @@ export default function HomePage() {
         <div className="heroOverlay" />
 
         <div className="heroContent">
-          <span className="heroBadge">HISU BEAUTY CLINIC</span>
+          <span className="heroBadge">THẨM MỸ VIỆN HISU </span>
 
           <h1>
             Nâng tầm nhan sắc<br />

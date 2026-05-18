@@ -2,7 +2,7 @@ import "./globals.css";
 import Header from "@/components/Layout/Header/Header";
 
 export const metadata = {
-  title: "HISU Beauty Clinic",
+  title: "THẨM MỸ VIỆN HISU",
   description: "Thẩm mỹ công nghệ cao",
 };
 
