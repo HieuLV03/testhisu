@@ -3,11 +3,19 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination } from "swiper/modules";
+
+import "swiper/css";
+import "swiper/css/pagination";
+
 import "./page.css";
 
 export default function HomePage() {
   const [services, setServices] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [sliders, setSliders] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -16,6 +24,14 @@ export default function HomePage() {
 
   async function fetchHomeData() {
     try {
+      // SLIDERS
+      const { data: sliderData } = await supabase
+        .from("sliders")
+        .select("*")
+        .eq("status", "published")
+        .order("created_at", { ascending: false });
+
+      // SERVICES
       const { data: serviceData } = await supabase
         .from("services")
         .select("*")
@@ -23,6 +39,7 @@ export default function HomePage() {
         .order("created_at", { ascending: false })
         .limit(6);
 
+      // POSTS
       const { data: postData } = await supabase
         .from("posts")
         .select("*")
@@ -30,6 +47,7 @@ export default function HomePage() {
         .order("created_at", { ascending: false })
         .limit(3);
 
+      setSliders(sliderData || []);
       setServices(serviceData || []);
       setPosts(postData || []);
     } finally {
@@ -40,29 +58,75 @@ export default function HomePage() {
   return (
     <main className="homePage">
 
-      {/* HERO */}
-      <section className="hero">
-        <div className="heroOverlay" />
+      {/* HERO SLIDER */}
+      <section className="heroSlider">
+<Swiper
+  modules={[Autoplay, Pagination]}
+  slidesPerView={1}
+  loop={true}
+  speed={1000}
+  autoplay={{
+    delay: 5000,
+    disableOnInteraction: false,
+    pauseOnMouseEnter: true,
+  }}
+  pagination={{
+    clickable: true,
+  }}
+  className="heroSwiper"
+>
 
-        <div className="heroContent">
-          <span className="heroBadge">THẨM MỸ VIỆN HISU </span>
+          {sliders.map((item) => (
+            <SwiperSlide key={item.id}>
 
-          <h1>
-            Nâng tầm nhan sắc<br />
-            Chuẩn công nghệ hiện đại
-          </h1>
+        <div
+  className="heroSlide"
+  style={{
+    "--bg-image": `url(${item.image})`,
+  }}
+>
+                <div className="heroOverlay" />
 
-          <p>Hệ thống thẩm mỹ & chăm sóc sắc đẹp chuyên nghiệp.</p>
+                <div className="heroContent">
 
-          <div className="heroButtons">
-            <Link href="/booking" className="btnPrimary">Đặt lịch ngay</Link>
-            <Link href="/services" className="btnOutline">Xem dịch vụ</Link>
-          </div>
-        </div>
+                  <span className="heroBadge">
+                    THẨM MỸ VIỆN HISU
+                  </span>
+
+                  <h1>{item.title}</h1>
+
+                  <p>
+                    Hệ thống thẩm mỹ & chăm sóc sắc đẹp chuyên nghiệp.
+                  </p>
+
+                  <div className="heroButtons">
+
+                    <Link href="/booking" className="btnPrimary">
+                      Đặt lịch ngay
+                    </Link>
+
+                    <Link href="/services" className="btnOutline">
+                      Xem dịch vụ
+                    </Link>
+     <Link href="/posts" className="btnOutline">
+                      Xem bài viết
+                    </Link>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </SwiperSlide>
+          ))}
+
+        </Swiper>
+
       </section>
 
       {/* SERVICES */}
       <section className="section">
+
         <div className="sectionHeader">
           <span className="sectionTag">DỊCH VỤ</span>
           <h2>Dịch vụ nổi bật</h2>
@@ -87,11 +151,15 @@ export default function HomePage() {
                 </div>
 
                 <div className="serviceBody">
+
                   <h3>{item.title}</h3>
+
                   <p>{item.short_description}</p>
+
                   <span>
                     {Number(item.price || 0).toLocaleString("vi-VN")}đ
                   </span>
+
                 </div>
 
               </Link>
@@ -99,30 +167,42 @@ export default function HomePage() {
 
           </div>
         )}
+
       </section>
 
       {/* ABOUT */}
       <section className="aboutSection">
+
         <div>
           <h2>Về HISU</h2>
-          <p>Thẩm mỹ công nghệ cao, an toàn & hiệu quả.</p>
+
+          <p>
+            Thẩm mỹ công nghệ cao, an toàn & hiệu quả.
+          </p>
         </div>
 
         <div>
           <img src="/images/about.jpg" alt="about" />
         </div>
+
       </section>
 
       {/* BLOG */}
       <section className="section">
+
         <div className="sectionHeader">
           <span className="sectionTag">BLOG</span>
           <h2>Bài viết mới</h2>
         </div>
 
         <div className="blogGrid">
+
           {posts.map((post) => (
-            <Link key={post.id} href={`/posts/${post.slug}`} className="blogCard">
+            <Link
+              key={post.id}
+              href={`/posts/${post.slug}`}
+              className="blogCard"
+            >
 
               {post.thumbnail && (
                 <div className="blogImg">
@@ -137,7 +217,9 @@ export default function HomePage() {
 
             </Link>
           ))}
+
         </div>
+
       </section>
 
     </main>

@@ -1,0 +1,204 @@
+/* ================= PAGE ================= */
+
+.adminSliderPage {
+  padding: 24px;
+  background: #f7f9fc;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.adminSliderPage h1 {
+  font-size: 30px;
+  margin-bottom: 24px;
+  font-weight: 800;
+}
+
+/* ================= FORM ================= */
+
+.sliderForm {
+  width: 100%;
+  max-width: 560px;
+
+  background: white;
+  padding: 22px;
+  border-radius: 18px;
+
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  margin-bottom: 36px;
+}
+
+.sliderForm input[type="text"] {
+  width: 100%;
+  height: 48px;
+
+  border: 1px solid #ddd;
+  border-radius: 12px;
+
+  padding: 0 14px;
+
+  font-size: 15px;
+  outline: none;
+}
+
+.sliderForm input[type="text"]:focus {
+  border-color: #ff4d8d;
+}
+
+/* FILE INPUT */
+
+.sliderForm input[type="file"] {
+  width: 100%;
+  font-size: 14px;
+}
+
+/* BUTTON */
+
+.sliderForm button {
+  width: 100%;
+  height: 48px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #ff4d8d;
+  color: white;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.sliderForm button:hover {
+  opacity: 0.92;
+}
+
+/* ================= LIST ================= */
+
+.sliderList {
+  display: grid;
+
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(260px, 1fr)
+  );
+
+  gap: 20px;
+}
+
+/* ================= CARD ================= */
+
+.sliderCard {
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+/* IMAGE */
+
+.sliderCard img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+/* BODY */
+
+.sliderBody {
+  padding: 16px;
+}
+
+.sliderBody h3 {
+  font-size: 17px;
+  margin-bottom: 14px;
+
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+/* ================= ACTIONS ================= */
+
+.sliderActions {
+  display: flex;
+  gap: 10px;
+}
+
+/* DELETE BUTTON */
+
+.deleteBtn {
+  width: 100%;
+  height: 42px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #ff4d4f;
+  color: white;
+
+  font-weight: 700;
+
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.deleteBtn:hover {
+  opacity: 0.9;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+  .adminSliderPage {
+    padding: 14px;
+  }
+
+  .adminSliderPage h1 {
+    font-size: 24px;
+    margin-bottom: 18px;
+  }
+
+  .sliderForm {
+    padding: 6px;
+    border-radius: 14px;
+  }
+
+  .sliderForm input[type="text"] {
+    height: 44px;
+    width: 90%;
+    font-size: 14px;
+  }
+
+  .sliderForm button {
+    height: 44px;
+        width: 98%;
+
+    font-size: 14px;
+  }
+
+  .sliderList {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .sliderCard img {
+    height: 190px;
+  }
+
+  .sliderBody {
+    padding: 1px;
+  }
+
+  .sliderBody h3 {
+    font-size: 15px;
+  }
+}

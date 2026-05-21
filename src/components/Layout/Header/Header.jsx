@@ -66,6 +66,9 @@ export default function Header() {
         <div className="adminBar">
           <Link href="/admin/posts">➕ Bài viết</Link>
           <Link href="/admin/services">➕ Dịch vụ</Link>
+            <Link href="/admin/sliders">
+      ➕ Slider
+    </Link>
         </div>
       )}
 
