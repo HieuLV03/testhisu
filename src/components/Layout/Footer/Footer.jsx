@@ -8,7 +8,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="footerContainer">
 
-        {/* LEFT - BRAND */}
+        {/* BRAND */}
         <div className="footerBrand">
           <h2>THẨM MỸ VIỆN HISU</h2>
           <p>
@@ -16,21 +16,31 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* CENTER - LINKS */}
+        {/* LINKS */}
         <div className="footerLinks">
-          <h3>Khám phá</h3>
+          <h3>Liên kết</h3>
+
           <Link href="/">Trang chủ</Link>
           <Link href="/services">Dịch vụ</Link>
           <Link href="/posts">Bài viết</Link>
           <Link href="/booking">Đặt lịch</Link>
         </div>
 
-        {/* RIGHT - CONTACT */}
+        {/* CONTACT */}
         <div className="footerContact">
           <h3>Liên hệ</h3>
+
           <p>📞 0372 089 821</p>
           <p>📧 thammyvienhisu@gmail.com</p>
-          <p>📍 TP. Hồ Chí Minh</p>
+
+          <div className="footerAddress">
+            <p>
+              <strong>🏢 Trụ sở:</strong> 354/47 Quốc lộ 1, P. Bình Tân, TP.HCM
+            </p>
+            <p>
+              <strong>🏥 Cơ sở:</strong> 15A Sông Đà, P. Tân Sơn Hòa, TP.HCM
+            </p>
+          </div>
 
           <div className="social">
             <a href="#">Facebook</a>

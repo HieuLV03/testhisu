@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/lib/supabase";
 import "./page.css";
 
@@ -8,16 +8,19 @@ export default function AdminSlidersPage() {
   const [sliders, setSliders] = useState([]);
 
   const [title, setTitle] = useState("");
-  const [imageFile, setImageFile] = useState(null);
+  const [imageDesktop, setImageDesktop] = useState(null);
+  const [imageMobile, setImageMobile] = useState(null);
 
   const [uploading, setUploading] = useState(false);
+
+  const desktopRef = useRef();
+  const mobileRef = useRef();
 
   useEffect(() => {
     fetchSliders();
   }, []);
 
   // ================= FETCH =================
-
   async function fetchSliders() {
     const { data, error } = await supabase
       .from("sliders")
@@ -33,81 +36,100 @@ export default function AdminSlidersPage() {
   }
 
   // ================= ADD =================
-
   async function handleAddSlider(e) {
     e.preventDefault();
 
-    if (!imageFile) {
-      alert("Vui lòng chọn ảnh");
+    if (!imageDesktop) {
+      alert("Vui lòng chọn ảnh desktop");
       return;
     }
 
     try {
       setUploading(true);
 
-const cleanName = imageFile.name
-  .replace(/\s+/g, "-")
-  .replace(/[^\w.-]/g, "");
+      const cleanName = (file) =>
+        file.name.replace(/\s+/g, "-").replace(/[^\w.-]/g, "");
 
-const fileName =
-  `${Date.now()}-${cleanName}`;
-      // ================= UPLOAD STORAGE =================
+      const uid = Math.random().toString(36).slice(2, 8);
 
-      const { error: uploadError } =
-        await supabase.storage
-          .from("images_slider")
-          .upload(fileName, imageFile);
+      const fileDesktop = `${Date.now()}-${uid}-desktop-${cleanName(imageDesktop)}`;
+      const fileMobile = imageMobile
+        ? `${Date.now()}-${uid}-mobile-${cleanName(imageMobile)}`
+        : null;
 
-      if (uploadError) {
-        alert(uploadError.message);
+      // ================= UPLOAD DESKTOP =================
+      const { error: uploadDesktopError } = await supabase.storage
+        .from("images_slider")
+        .upload(fileDesktop, imageDesktop);
+
+      if (uploadDesktopError) {
+        alert(uploadDesktopError.message);
         return;
       }
 
-      // ================= GET PUBLIC URL =================
-
-      const {
-        data: { publicUrl },
-      } = supabase.storage
+      const { data: desktopUrl } = supabase.storage
         .from("images_slider")
-        .getPublicUrl(fileName);
+        .getPublicUrl(fileDesktop);
 
-      // ================= INSERT DATABASE =================
+      // ================= UPLOAD MOBILE =================
+      let mobileUrl = null;
 
-      const { error: insertError } =
-        await supabase
-          .from("sliders")
-          .insert([
-            {
-              title,
-              image: publicUrl,
-              status: "published",
-            },
-          ]);
+      if (imageMobile) {
+        const { error: uploadMobileError } = await supabase.storage
+          .from("images_slider")
+          .upload(fileMobile, imageMobile);
+
+        if (uploadMobileError) {
+          alert(uploadMobileError.message);
+          return;
+        }
+
+        const { data: mUrl } = supabase.storage
+          .from("images_slider")
+          .getPublicUrl(fileMobile);
+
+        mobileUrl = mUrl.publicUrl;
+      }
+
+      // ================= INSERT DB =================
+      const { error: insertError } = await supabase
+        .from("sliders")
+        .insert([
+          {
+            title,
+            image_desktop: desktopUrl.publicUrl,
+            image_mobile: mobileUrl,
+            status: "published",
+          },
+        ]);
 
       if (insertError) {
         alert(insertError.message);
         return;
       }
 
-      // RESET
+      // RESET STATE
       setTitle("");
-      setImageFile(null);
+      setImageDesktop(null);
+      setImageMobile(null);
 
-      // REFRESH
+      // RESET INPUT FILE
+      if (desktopRef.current) desktopRef.current.value = "";
+      if (mobileRef.current) mobileRef.current.value = "";
+
       fetchSliders();
-
       alert("Thêm slider thành công");
+    } catch (err) {
+      console.error(err);
+      alert("Có lỗi xảy ra khi upload slider");
     } finally {
       setUploading(false);
     }
   }
 
   // ================= DELETE =================
-
   async function handleDelete(id) {
-    const confirmDelete =
-      confirm("Xóa slider?");
-
+    const confirmDelete = confirm("Xóa slider?");
     if (!confirmDelete) return;
 
     const { error } = await supabase
@@ -123,76 +145,82 @@ const fileName =
     fetchSliders();
   }
 
+  // ================= UI =================
   return (
     <main className="adminSliderPage">
 
       <h1>Quản lý Slider</h1>
 
       {/* FORM */}
-
-      <form
-        onSubmit={handleAddSlider}
-        className="sliderForm"
-      >
+      <form onSubmit={handleAddSlider} className="sliderForm">
 
         <input
           type="text"
           placeholder="Tiêu đề slider"
           value={title}
-          onChange={(e) =>
-            setTitle(e.target.value)
-          }
+          onChange={(e) => setTitle(e.target.value)}
         />
 
+        <label>Ảnh Desktop (1920x800)</label>
         <input
+          ref={desktopRef}
           type="file"
           accept="image/*"
-          onChange={(e) =>
-            setImageFile(e.target.files[0])
-          }
+          onChange={(e) => setImageDesktop(e.target.files[0])}
         />
 
-        <button
-          type="submit"
-          disabled={uploading}
-        >
-          {uploading
-            ? "Đang upload..."
-            : "Thêm Slider"}
-        </button>
+        <label>Ảnh Mobile (1080x1350)</label>
+        <input
+          ref={mobileRef}
+          type="file"
+          accept="image/*"
+          onChange={(e) => setImageMobile(e.target.files[0])}
+        />
 
+        <button type="submit" disabled={uploading}>
+          {uploading ? "Đang upload..." : "Thêm Slider"}
+        </button>
       </form>
 
       {/* LIST */}
-
       <div className="sliderList">
 
         {sliders.map((item) => (
-          <div
-            key={item.id}
-            className="sliderCard"
-          >
+          <div key={item.id} className="sliderCard">
 
+            {/* PREVIEW DESKTOP */}
             <img
-              src={item.image}
+              src={item.image_desktop || item.image}
               alt={item.title}
             />
+
+            {/* PREVIEW MOBILE (nhỏ) */}
+            {item.image_mobile && (
+              <img
+                src={item.image_mobile}
+                alt="mobile"
+                style={{
+                  width: 120,
+                  height: 160,
+                  objectFit: "cover",
+                  marginTop: 8,
+                  borderRadius: 8,
+                  display: "block",
+                }}
+              />
+            )}
 
             <div className="sliderBody">
 
               <h3>{item.title}</h3>
 
               <div className="sliderActions">
-
                 <button
                   className="deleteBtn"
-                  onClick={() =>
-                    handleDelete(item.id)
-                  }
+                  onClick={() => handleDelete(item.id)}
                 >
                   Xóa
                 </button>
-
               </div>
 
             </div>

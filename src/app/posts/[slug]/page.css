@@ -1,7 +1,7 @@
 .postPage {
   min-height: 100vh;
   background: #f6f7fb;
-  padding: 100px 20px 60px; /* 👈 FIX HEADER CHE TOP */
+  padding: 90px 20px 60px; /* 👈 FIX HEADER CHE TOP */
   display: flex;
   justify-content: center;
 }
@@ -10,7 +10,6 @@
   width: 100%;
   max-width: 900px;
   background: #fff;
-  padding: 45px;
   border-radius: 18px;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
 }
@@ -45,7 +44,7 @@
 /* ✨ responsive */
 @media (max-width: 768px) {
   .postContainer {
-    padding: 20px;
+    padding: 10px;
   }
 
   .postContainer h1 {

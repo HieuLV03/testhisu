@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import BackButton from "@/components/BackButton/BackButton";
-
+import "./page.css"
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
@@ -92,50 +92,34 @@ export default async function PostPage({
     );
   }
 
-  return (
-    <div
-      style={{
-        paddingTop: 100,
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingBottom: 40,
-        maxWidth: 900,
-        margin: "0 auto",
-      }}
-    >
-      <BackButton />
+return (
+  <div className="postPage">
+    
+    <BackButton />
+
+    <div className="postContainer">
 
       <h1>{data.title}</h1>
 
-      <p
-        style={{
-          color: "#666",
-          marginTop: 10,
-          marginBottom: 20,
-          lineHeight: 1.7,
-        }}
-      >
+      <p className="desc">
         {data.description}
       </p>
 
       {data.image && (
         <img
+          className="postImage"
           src={data.image}
           alt={data.title}
-          style={{
-            width: "100%",
-            borderRadius: 12,
-            marginBottom: 24,
-          }}
         />
       )}
 
       <div
+        className="content"
         dangerouslySetInnerHTML={{
-          __html:
-            data.content || "",
+          __html: data.content || "",
         }}
       />
     </div>
-  );
+  </div>
+);
 }

@@ -1,38 +1,46 @@
 .footer {
-  background: radial-gradient(circle at top, #111827, #0b1220);
-  color: #fff;
-  padding: 15px 20px 20px;
-  margin-top: 10px;
-  border-top: 1px solid rgba(58, 160, 255, 0.2);
+  background: radial-gradient(circle at top, #0b1220, #070b14);
+  color: #e5e7eb;
+  margin-top: 40px;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  letter-spacing: 0.2px;
 }
 
-/* GRID MỚI */
+/* GRID */
 .footerContainer {
   max-width: 1200px;
   margin: auto;
+
   display: grid;
-  grid-template-columns: 2fr 1fr 1.2fr;
-  gap: 50px;
+  grid-template-columns: 2fr 1fr 1.4fr;
+  gap: 60px;
+
+  align-items: start;
 }
 
 /* BRAND */
 .footerBrand h2 {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 800;
+
   background: linear-gradient(135deg, #3aa0ff, #ff4d8d);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 10px;
+
+  margin-bottom: 12px;
 }
 
 .footerBrand p {
   color: #cbd5e1;
-  font-size: 14px;
-  line-height: 1.6;
-  max-width: 300px;
+  font-size: 14.5px;
+  line-height: 1.7;
+  max-width: 320px;
 }
 
-/* TITLE */
+/* TITLES */
 .footerLinks h3,
 .footerContact h3 {
   color: #3aa0ff;
@@ -44,51 +52,86 @@
 .footerLinks a {
   display: block;
   color: #cbd5e1;
-  margin-bottom: 8px;
+
+  margin-bottom: 10px;
   font-size: 14px;
+
   text-decoration: none;
-  transition: 0.3s;
+
+  transition: 0.25s;
 }
 
 .footerLinks a:hover {
   color: #ff4d8d;
-  transform: translateX(6px);
+  transform: translateX(8px);
 }
 
 /* CONTACT */
 .footerContact p {
   font-size: 14px;
   color: #cbd5e1;
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+/* ADDRESS BOX */
+.footerAddress {
+  margin-top: 12px;
+
+  padding: 12px 14px;
+
+  border: 1px solid rgba(58, 160, 255, 0.2);
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.footerAddress p {
+  font-size: 13.5px;
   margin-bottom: 6px;
+  color: #e2e8f0;
+}
+
+.footerAddress strong {
+  color: #3aa0ff;
 }
 
 /* SOCIAL */
 .social {
-  margin-top: 10px;
+  margin-top: 14px;
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 .social a {
-  font-size: 13px;
-  padding: 5px 10px;
-  border: 1px solid rgba(58, 160, 255, 0.3);
-  border-radius: 20px;
+  font-size: 12.5px;
+
+  padding: 6px 12px;
+
+  border: 1px solid rgba(58, 160, 255, 0.25);
+  border-radius: 999px;
+
   color: #cbd5e1;
-  transition: 0.3s;
+
+  transition: 0.25s;
 }
 
 .social a:hover {
   background: linear-gradient(135deg, #3aa0ff, #ff4d8d);
   color: white;
+  transform: translateY(-2px);
 }
 
 /* BOTTOM */
 .footerBottom {
   text-align: center;
-  margin-top: 40px;
-  padding-top: 15px;
-  border-top: 1px solid rgba(255,255,255,0.08);
+
+  margin-top: 5px;
+  padding-top: 12px;
+padding-bottom: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+
   font-size: 13px;
   color: #94a3b8;
 }
@@ -98,7 +141,7 @@
   .footerContainer {
     grid-template-columns: 1fr;
     text-align: center;
-    gap: 25px;
+    gap: 28px;
   }
 
   .footerBrand p {
@@ -107,5 +150,11 @@
 
   .social {
     justify-content: center;
+  }
+
+  .footerAddress {
+    text-align: left;
+    max-width: 320px;
+    margin: 10px auto;
   }
 }
