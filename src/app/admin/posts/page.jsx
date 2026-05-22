@@ -17,7 +17,7 @@ export default function PostsPage() {
 
     const { data, error } = await supabase
       .from("posts")
-      .select("id, title, slug, created_at, status, thumbnail")
+      .select("id, title, slug, created_at, status, image")
       .order("created_at", { ascending: false });
 
     if (error) {
@@ -67,8 +67,8 @@ const extractPath = (url) => {
       // =========================
       // 1. DELETE IMAGE (STORAGE)
       // =========================
-      if (post.thumbnail) {
-        const filePath = extractPath(post.thumbnail);
+      if (post.image) {
+        const filePath = extractPath(post.image);
 
         if (filePath) {
           const { error: storageError } = await supabase.storage

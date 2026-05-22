@@ -27,21 +27,18 @@ export default function HomePage() {
   async function fetchHomeData() {
     setLoading(true);
 
-    // SLIDER
     const { data: sliderData } = await supabase
       .from("sliders")
       .select("*")
       .eq("status", "published")
       .order("created_at", { ascending: false });
 
-    // SERVICES
     const { data: serviceData } = await supabase
       .from("services")
       .select("*")
       .eq("status", "published")
       .order("created_at", { ascending: false });
 
-    // POSTS
     const { data: postData } = await supabase
       .from("posts")
       .select("*")
@@ -52,7 +49,6 @@ export default function HomePage() {
     setSliders(sliderData || []);
     setServices(serviceData || []);
     setPosts(postData || []);
-
     setLoading(false);
   }
 
@@ -65,71 +61,61 @@ export default function HomePage() {
   return (
     <main className="home">
 
-      {/* HERO SLIDER */}
-{/* HERO SLIDER */}
-<section className="heroSlider">
-  {sliders.length > 0 && (
-    <Swiper
-      modules={[Autoplay, Pagination]}
-      slidesPerView={1}
-      loop={sliders.length > 1}
-      speed={1000}
-      autoplay={{
-        delay: 5000,
-        disableOnInteraction: false,
-      }}
-      pagination={{ clickable: true }}
-      className="heroSwiper"
-    >
-      {sliders.map((item) => (
-        <SwiperSlide key={item.id}>
-          <div className="heroSlide">
+      {/* HERO */}
+      <section className="heroSlider">
+        {sliders.length > 0 && (
+          <Swiper
+            modules={[Autoplay, Pagination]}
+            slidesPerView={1}
+            loop={sliders.length > 1}
+            speed={1000}
+            autoplay={{ delay: 5000, disableOnInteraction: false }}
+            pagination={{ clickable: true }}
+            className="heroSwiper"
+          >
+            {sliders.map((item) => (
+              <SwiperSlide key={item.id}>
+                <div className="heroSlide">
 
-            {/* IMAGE RESPONSIVE */}
-            <picture className="heroPicture">
-              <source
-                media="(max-width: 768px)"
-                srcSet={item.image_mobile}
-              />
-              <img
-                src={item.image_desktop || item.image}
-                alt={item.title}
-                className="heroImg"
-              />
-            </picture>
+                  <picture className="heroPicture">
+                    <source
+                      media="(max-width: 768px)"
+                      srcSet={item.image_mobile}
+                    />
+                    <img
+                      src={item.image_desktop || item.image}
+                      alt={item.title}
+                      className="heroImg"
+                    />
+                  </picture>
 
-            {/* OVERLAY */}
-            <div className="heroOverlay" />
+                  <div className="heroOverlay" />
 
-            {/* CONTENT */}
-            <div className="heroContent">
-              <h1>{item.title}</h1>
+                  <div className="heroContent">
+                    <h1>{item.title}</h1>
 
-              <p>
-                Hệ thống thẩm mỹ & chăm sóc sắc đẹp chuyên nghiệp.
-              </p>
+                    <p>
+                      Hệ thống thẩm mỹ & chăm sóc sắc đẹp chuyên nghiệp.
+                    </p>
 
-              <div className="heroActions">
-                <Link href="/booking" className="btnPrimary">
-                  Đặt lịch
-                </Link>
+                    <div className="heroActions">
+                      <Link href="/booking" className="btnPrimary">
+                        Đặt lịch
+                      </Link>
+                 
+                      <Link href="/posts" className="btnOutline">
+                        Xem bài viết
+                      </Link>
+                    </div>
+                  </div>
 
-                <Link href="/services" className="btnOutline">
-                  Xem dịch vụ
-                </Link>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
+      </section>
 
-                <Link href="/posts" className="btnOutline">
-                  Xem bài viết
-                </Link>
-              </div>
-            </div>
-
-          </div>
-        </SwiperSlide>
-      ))}
-    </Swiper>
-  )}
-</section>
       {/* SERVICES */}
       <section className="section">
         <div className="sectionHeader">
@@ -137,7 +123,7 @@ export default function HomePage() {
         </div>
 
         {loading ? (
-          <p>Đang tải...</p>
+          <p className="loading">Đang tải...</p>
         ) : (
           <>
             <div className="serviceGrid">
@@ -147,31 +133,23 @@ export default function HomePage() {
                   href={`/services/${s.slug}`}
                   className="serviceCard"
                 >
-
                   <div className="serviceImg">
-                    {s.image && (
-                      <img src={s.image} alt={s.title} />
-                    )}
+                    <img src={s.image} alt={s.title} />
                   </div>
 
                   <div className="serviceBody">
                     <h3>{s.title}</h3>
-
                     <span>
                       {Number(s.price || 0).toLocaleString("vi-VN")}đ
                     </span>
                   </div>
-
                 </Link>
               ))}
             </div>
 
             {visibleCount < services.length && (
               <div className="loadMoreWrap">
-                <button
-                  onClick={loadMore}
-                  className="loadMoreBtn"
-                >
+                <button onClick={loadMore} className="loadMoreBtn">
                   Xem thêm
                 </button>
               </div>
@@ -180,34 +158,28 @@ export default function HomePage() {
         )}
       </section>
 
-      {/* POSTS */}
+      {/* BLOG */}
       <section className="section">
-
         <div className="sectionHeader">
           <h2>Bài viết mới</h2>
         </div>
 
         <div className="blogGrid">
-
           {posts.map((p) => (
             <Link
               key={p.id}
               href={`/posts/${p.slug}`}
               className="blogCard"
             >
-
               <img src={p.image} alt={p.title} />
 
               <div className="blogBody">
                 <h3>{p.title}</h3>
                 <p>{p.description}</p>
               </div>
-
             </Link>
           ))}
-
         </div>
-
       </section>
 
     </main>

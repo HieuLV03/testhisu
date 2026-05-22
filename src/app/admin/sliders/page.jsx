@@ -20,22 +20,15 @@ export default function AdminSlidersPage() {
     fetchSliders();
   }, []);
 
-  // ================= FETCH =================
   async function fetchSliders() {
     const { data, error } = await supabase
       .from("sliders")
       .select("*")
       .order("created_at", { ascending: false });
 
-    if (error) {
-      console.log(error);
-      return;
-    }
-
-    setSliders(data || []);
+    if (!error) setSliders(data || []);
   }
 
-  // ================= ADD =================
   async function handleAddSlider(e) {
     e.preventDefault();
 
@@ -57,32 +50,26 @@ export default function AdminSlidersPage() {
         ? `${Date.now()}-${uid}-mobile-${cleanName(imageMobile)}`
         : null;
 
-      // ================= UPLOAD DESKTOP =================
-      const { error: uploadDesktopError } = await supabase.storage
+      // upload desktop
+      const { error: upErr1 } = await supabase.storage
         .from("images_slider")
         .upload(fileDesktop, imageDesktop);
 
-      if (uploadDesktopError) {
-        alert(uploadDesktopError.message);
-        return;
-      }
+      if (upErr1) return alert(upErr1.message);
 
       const { data: desktopUrl } = supabase.storage
         .from("images_slider")
         .getPublicUrl(fileDesktop);
 
-      // ================= UPLOAD MOBILE =================
+      // upload mobile
       let mobileUrl = null;
 
       if (imageMobile) {
-        const { error: uploadMobileError } = await supabase.storage
+        const { error: upErr2 } = await supabase.storage
           .from("images_slider")
           .upload(fileMobile, imageMobile);
 
-        if (uploadMobileError) {
-          alert(uploadMobileError.message);
-          return;
-        }
+        if (upErr2) return alert(upErr2.message);
 
         const { data: mUrl } = supabase.storage
           .from("images_slider")
@@ -91,61 +78,43 @@ export default function AdminSlidersPage() {
         mobileUrl = mUrl.publicUrl;
       }
 
-      // ================= INSERT DB =================
-      const { error: insertError } = await supabase
-        .from("sliders")
-        .insert([
-          {
-            title,
-            image_desktop: desktopUrl.publicUrl,
-            image_mobile: mobileUrl,
-            status: "published",
-          },
-        ]);
+      // insert db
+      const { error: insertErr } = await supabase.from("sliders").insert([
+        {
+          title,
+          image_desktop: desktopUrl.publicUrl,
+          image_mobile: mobileUrl,
+          status: "published",
+        },
+      ]);
 
-      if (insertError) {
-        alert(insertError.message);
-        return;
-      }
+      if (insertErr) return alert(insertErr.message);
 
-      // RESET STATE
       setTitle("");
       setImageDesktop(null);
       setImageMobile(null);
 
-      // RESET INPUT FILE
       if (desktopRef.current) desktopRef.current.value = "";
       if (mobileRef.current) mobileRef.current.value = "";
 
       fetchSliders();
       alert("Thêm slider thành công");
-    } catch (err) {
-      console.error(err);
-      alert("Có lỗi xảy ra khi upload slider");
     } finally {
       setUploading(false);
     }
   }
 
-  // ================= DELETE =================
   async function handleDelete(id) {
-    const confirmDelete = confirm("Xóa slider?");
-    if (!confirmDelete) return;
+    if (!confirm("Xóa slider?")) return;
 
     const { error } = await supabase
       .from("sliders")
       .delete()
       .eq("id", id);
 
-    if (error) {
-      alert(error.message);
-      return;
-    }
-
-    fetchSliders();
+    if (!error) fetchSliders();
   }
 
-  // ================= UI =================
   return (
     <main className="adminSliderPage">
 
@@ -161,7 +130,7 @@ export default function AdminSlidersPage() {
           onChange={(e) => setTitle(e.target.value)}
         />
 
-        <label>Ảnh Desktop (1920x800)</label>
+        <label>Ảnh Desktop</label>
         <input
           ref={desktopRef}
           type="file"
@@ -169,7 +138,7 @@ export default function AdminSlidersPage() {
           onChange={(e) => setImageDesktop(e.target.files[0])}
         />
 
-        <label>Ảnh Mobile (1080x1350)</label>
+        <label>Ảnh Mobile</label>
         <input
           ref={mobileRef}
           type="file"
@@ -180,6 +149,7 @@ export default function AdminSlidersPage() {
         <button type="submit" disabled={uploading}>
           {uploading ? "Đang upload..." : "Thêm Slider"}
         </button>
+
       </form>
 
       {/* LIST */}
@@ -188,41 +158,29 @@ export default function AdminSlidersPage() {
         {sliders.map((item) => (
           <div key={item.id} className="sliderCard">
 
-            {/* PREVIEW DESKTOP */}
             <img
-              src={item.image_desktop || item.image}
+              src={item.image_desktop}
               alt={item.title}
+              className="sliderImg"
             />
 
-            {/* PREVIEW MOBILE (nhỏ) */}
             {item.image_mobile && (
               <img
                 src={item.image_mobile}
                 alt="mobile"
-                style={{
-                  width: 120,
-                  height: 160,
-                  objectFit: "cover",
-                  marginTop: 8,
-                  borderRadius: 8,
-                  display: "block",
-                }}
+                className="sliderMobileImg"
               />
             )}
 
             <div className="sliderBody">
-
               <h3>{item.title}</h3>
 
-              <div className="sliderActions">
-                <button
-                  className="deleteBtn"
-                  onClick={() => handleDelete(item.id)}
-                >
-                  Xóa
-                </button>
-              </div>
-
+              <button
+                className="deleteBtn"
+                onClick={() => handleDelete(item.id)}
+              >
+                Xóa
+              </button>
             </div>
 
           </div>

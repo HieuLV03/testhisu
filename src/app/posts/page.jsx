@@ -57,24 +57,6 @@ export default function HomePage() {
     <main className="home">
 
       {/* HERO SLIDER */}
-      <section className="heroSlider">
-
-        <Swiper
-          modules={[Autoplay, Pagination]}
-          slidesPerView={1}
-          loop={true}
-          speed={900}
-          autoplay={{
-            delay: 4000,
-            disableOnInteraction: false,
-          }}
-          pagination={{ clickable: true }}
-          className="heroSwiper"
-        >
-
-          {sliders.map((item) => (
-            <SwiperSlide key={item.id}>
-{/* HERO SLIDER */}
 <section className="heroSlider">
   {sliders.length > 0 && (
     <Swiper
@@ -126,9 +108,6 @@ export default function HomePage() {
                   Xem dịch vụ
                 </Link>
 
-                <Link href="/posts" className="btnOutline">
-                  Xem bài viết
-                </Link>
               </div>
             </div>
 
@@ -138,11 +117,6 @@ export default function HomePage() {
     </Swiper>
   )}
 </section>
-            </SwiperSlide>
-          ))}
-
-        </Swiper>
-      </section>
       {/* POSTS */}
       <section className="section">
         <div className="sectionHeader">
