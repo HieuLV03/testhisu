@@ -1,7 +1,7 @@
 .postPage {
   min-height: 100vh;
   background: #f6f7fb;
-  padding: 40px 20px;
+  padding: 100px 20px 60px; /* 👈 FIX HEADER CHE TOP */
   display: flex;
   justify-content: center;
 }
@@ -9,49 +9,46 @@
 .postContainer {
   width: 100%;
   max-width: 900px;
-  background: white;
-  padding: 35px;
+  background: #fff;
+  padding: 40px;
   border-radius: 18px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
-}
-
-.postImage {
-  width: 100%;
-  border-radius: 14px;
-  margin-bottom: 20px;
-  object-fit: cover;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
 }
 
 .postContainer h1 {
   font-size: 32px;
   margin-bottom: 10px;
   color: #111;
+  line-height: 1.3;
 }
 
-.meta {
-  display: flex;
-  gap: 10px;
-  font-size: 13px;
-  color: #666;
-  margin-bottom: 20px;
-}
-
-.category {
-  background: #111;
-  color: white;
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-size: 12px;
+.postImage {
+  width: 100%;
+  border-radius: 14px;
+  margin: 20px 0;
+  object-fit: cover;
 }
 
 .desc {
   font-size: 16px;
-  color: #444;
+  color: #555;
   margin-bottom: 20px;
+  line-height: 1.6;
 }
 
 .content {
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.8;
   color: #222;
+}
+
+/* ✨ responsive */
+@media (max-width: 768px) {
+  .postContainer {
+    padding: 20px;
+  }
+
+  .postContainer h1 {
+    font-size: 24px;
+  }
 }

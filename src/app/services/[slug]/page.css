@@ -1,0 +1,51 @@
+/* CHỐT FIX BỊ CHE HEADER */
+.page {
+  padding-top: 90px; /* chỉnh theo chiều cao header */
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* TITLE */
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #111;
+}
+
+/* DESCRIPTION */
+.desc {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+/* IMAGE */
+.image {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  object-fit: cover;
+}
+
+/* CONTENT HTML */
+.content {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #222;
+}
+
+.content img {
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+.content h2,
+.content h3 {
+  margin-top: 20px;
+}
