@@ -196,7 +196,7 @@ export default function HomePage() {
               className="blogCard"
             >
 
-              <img src={p.thumbnail} alt={p.title} />
+              <img src={p.image} alt={p.title} />
 
               <div className="blogBody">
                 <h3>{p.title}</h3>
