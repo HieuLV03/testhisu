@@ -1,51 +1,124 @@
-/* CHỐT FIX BỊ CHE HEADER */
 .page {
-  padding-top: 90px; /* chỉnh theo chiều cao header */
+  padding-top: 100px;
   padding-left: 20px;
   padding-right: 20px;
-  padding-bottom: 40px;
+  padding-bottom: 50px;
+
   max-width: 1000px;
   margin: 0 auto;
 }
 
 /* TITLE */
 .title {
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 700;
-  margin-bottom: 10px;
+  line-height: 1.3;
+
   color: #111;
+
+  margin-bottom: 16px;
 }
 
 /* DESCRIPTION */
 .desc {
-  font-size: 16px;
+  font-size: 17px;
+  line-height: 1.8;
+
   color: #555;
-  margin-bottom: 20px;
-  line-height: 1.6;
+
+  margin-bottom: 28px;
 }
 
 /* IMAGE */
 .image {
   width: 100%;
-  height: auto;
-  border-radius: 12px;
-  margin-bottom: 20px;
+
+  border-radius: 16px;
+
+  margin-bottom: 30px;
+
   object-fit: cover;
 }
 
-/* CONTENT HTML */
+/* CONTENT */
 .content {
-  font-size: 16px;
-  line-height: 1.8;
+  font-size: 17px;
+
+  line-height: 1.9;
+
   color: #222;
 }
 
-.content img {
-  max-width: 100%;
-  border-radius: 10px;
+/* HEADINGS */
+.content h1 {
+  font-size: 36px;
+  margin: 32px 0 20px;
 }
 
-.content h2,
+.content h2 {
+  font-size: 30px;
+  margin: 28px 0 18px;
+}
+
 .content h3 {
-  margin-top: 20px;
+  font-size: 24px;
+  margin: 24px 0 16px;
+}
+
+/* PARAGRAPH */
+.content p {
+  margin-bottom: 18px;
+}
+
+/* LIST */
+.content ul,
+.content ol {
+  padding-left: 24px;
+  margin-bottom: 20px;
+}
+
+.content li {
+  margin-bottom: 10px;
+}
+
+/* IMAGE INSIDE CONTENT */
+.content img {
+  max-width: 100%;
+
+  border-radius: 14px;
+
+  margin: 20px 0;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .page {
+    padding-top: 85px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .desc {
+    font-size: 15px;
+  }
+
+  .content {
+    font-size: 15px;
+  }
+
+  .content h1 {
+    font-size: 28px;
+  }
+
+  .content h2 {
+    font-size: 24px;
+  }
+
+  .content h3 {
+    font-size: 20px;
+  }
 }

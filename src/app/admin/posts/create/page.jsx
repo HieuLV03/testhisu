@@ -172,13 +172,17 @@ export default function CreatePostPage() {
           }
         />
 
-        <textarea
-          placeholder="Content"
-          value={form.content}
-          onChange={(e) =>
-            setForm({ ...form, content: e.target.value })
-          }
-        />
+<textarea
+  className="editor"
+  placeholder="Nhập HTML..."
+  value={form.content}
+  onChange={(e) =>
+    setForm({
+      ...form,
+      content: e.target.value,
+    })
+  }
+/>
 
         <input
           placeholder="Category"

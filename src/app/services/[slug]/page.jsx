@@ -1,5 +1,10 @@
 import { supabase } from "@/lib/supabase";
 import "./page.css";
+import { notFound } from "next/navigation";
+
+// FIX CACHE
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function generateMetadata({ params }) {
   const { slug } = params;
@@ -18,45 +23,88 @@ export async function generateMetadata({ params }) {
 
   return {
     title: data.meta_title || data.title,
-    description: data.meta_description || data.short_description,
+
+    description:
+      data.meta_description ||
+      data.short_description,
+
     keywords: data.meta_keywords || "",
+
     alternates: {
       canonical: `https://testhisu.vercel.app/services/${data.slug}`,
     },
+
     openGraph: {
       title: data.meta_title || data.title,
-      description: data.meta_description || data.short_description,
-      images: data.image ? [data.image] : [],
+
+      description:
+        data.meta_description ||
+        data.short_description,
+
+      images: data.image
+        ? [data.image]
+        : [],
+    },
+
+    twitter: {
+      card: "summary_large_image",
+
+      title:
+        data.meta_title ||
+        data.title,
+
+      description:
+        data.meta_description ||
+        data.short_description,
+
+      images: data.image
+        ? [data.image]
+        : [],
     },
   };
 }
 
-export default async function Page({ params }) {
+export default async function Page({
+  params,
+}) {
   const { slug } = params;
 
-  const { data } = await supabase
-    .from("services")
-    .select("*")
-    .eq("slug", slug)
-    .maybeSingle();
+  const { data, error } =
+    await supabase
+      .from("services")
+      .select("*")
+      .eq("slug", slug)
+      .eq("status", "published")
+      .maybeSingle();
 
-  if (!data) {
-    return <div className="page">❌ Không tìm thấy dịch vụ</div>;
+  if (error || !data) {
+    notFound();
   }
 
   return (
     <div className="page">
-      <h1 className="title">{data.title}</h1>
+      <h1 className="title">
+        {data.title}
+      </h1>
 
-      <p className="desc">{data.short_description}</p>
+      <p className="desc">
+        {data.short_description}
+      </p>
 
       {data.image && (
-        <img className="image" src={data.image} alt={data.title} />
+        <img
+          className="image"
+          src={data.image}
+          alt={data.title}
+        />
       )}
 
       <div
         className="content"
-        dangerouslySetInnerHTML={{ __html: data.content }}
+        dangerouslySetInnerHTML={{
+          __html:
+            data.content || "",
+        }}
       />
     </div>
   );

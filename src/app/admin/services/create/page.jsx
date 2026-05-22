@@ -192,13 +192,17 @@ const sanitize = (text) => {
           }
         />
 
-        <textarea
-          placeholder="Nội dung"
-          value={form.content}
-          onChange={(e) =>
-            setForm({ ...form, content: e.target.value })
-          }
-        />
+<textarea
+  className="editor"
+  placeholder="Nhập HTML..."
+  value={form.content}
+  onChange={(e) =>
+    setForm({
+      ...form,
+      content: e.target.value,
+    })
+  }
+/>
 
         <input
           placeholder="Meta title"

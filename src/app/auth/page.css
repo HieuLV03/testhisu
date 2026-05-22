@@ -1,10 +1,9 @@
 /* ========================= */
 /* AUTH PAGE WRAPPER */
 /* ========================= */
-
 .authPage {
   width: 100%;
-  min-height: 100vh;
+  min-height: 100dvh;
 
   display: flex;
   align-items: center;
@@ -14,7 +13,6 @@
   padding: 16px;
   box-sizing: border-box;
 }
-
 /* ========================= */
 /* AUTH CARD */
 /* ========================= */
@@ -64,7 +62,7 @@
   border: 1px solid #e5e7eb;
   border-radius: 10px;
 
-  font-size: 14px;
+  font-size: 16px;
 
   outline: none;
 
@@ -171,7 +169,7 @@
 
   .authCard input {
     height: 42px;
-    font-size: 13px;
+    font-size: 16px;
   }
 
   .authCard button {

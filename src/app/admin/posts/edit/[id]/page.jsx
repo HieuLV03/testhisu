@@ -74,15 +74,17 @@ export default function EditPostPage() {
   // =========================
   const getPathFromUrl = (url) => {
     if (!url) return null;
+
     const parts = url.split("images_post/");
     return parts.length > 1 ? parts[1] : null;
   };
 
   // =========================
-  // UPLOAD IMAGE (SLUG NAME)
+  // UPLOAD IMAGE
   // =========================
   const handleUpload = async (e) => {
     const file = e.target.files?.[0];
+
     if (!file) return;
 
     setUploading(true);
@@ -90,7 +92,9 @@ export default function EditPostPage() {
     try {
       const fileExt = file.name.split(".").pop();
 
-      const cleanSlug = sanitize(form.slug || form.title || "post");
+      const cleanSlug = sanitize(
+        form.slug || form.title || "post"
+      );
 
       const fileName = `${cleanSlug}-${Date.now()}-${randomString()}.${fileExt}`;
 
@@ -104,9 +108,10 @@ export default function EditPostPage() {
         .from("images_post")
         .getPublicUrl(fileName);
 
-      // ❌ delete old image
+      // DELETE OLD IMAGE
       if (form.thumbnail) {
         const oldPath = getPathFromUrl(form.thumbnail);
+
         if (oldPath) {
           await supabase.storage
             .from("images_post")
@@ -129,37 +134,59 @@ export default function EditPostPage() {
   // UPDATE POST
   // =========================
 const updatePost = async () => {
-  setLoading(true);
+  try {
+    setLoading(true);
 
-  const { error } = await supabase
-    .from("posts")
-    .update({
-      title: form.title,
-      slug: form.slug,
-      description: form.description,
-      content: form.content,
-      thumbnail: form.thumbnail,
-      meta_title: form.meta_title,
-      meta_description: form.meta_description,
-      meta_keywords: form.meta_keywords,
-      og_image: form.og_image,
-      category: form.category,
-      status: form.status,
-      featured: form.featured,
-      updated_at: new Date().toISOString(),
-    })
-    .eq("id", id);
+    const { error } = await supabase
+      .from("posts")
+      .update({
+        title: form.title,
 
-  setLoading(false);
+        slug: form.slug,
 
-  if (error) {
-    console.log(error);
-    alert(error.message);
-    return;
+        description: form.description,
+
+        // LƯU HTML THẲNG
+        content: form.content,
+
+        thumbnail: form.thumbnail,
+
+        meta_title: form.meta_title,
+
+        meta_description:
+          form.meta_description,
+
+        meta_keywords:
+          form.meta_keywords,
+
+        og_image: form.og_image,
+
+        category: form.category,
+
+        status: form.status,
+
+        featured: form.featured,
+
+        updated_at:
+          new Date().toISOString(),
+      })
+      .eq("id", id);
+
+    if (error) {
+      console.log(error);
+      alert(error.message);
+      return;
+    }
+
+    alert("Cập nhật thành công!");
+  } catch (err) {
+    console.log(err);
+    alert("Lỗi cập nhật");
+  } finally {
+    setLoading(false);
   }
-
-  alert("Cập nhật thành công!");
 };
+
   if (!mounted) return null;
 
   return (
@@ -172,6 +199,7 @@ const updatePost = async () => {
           value={form.title}
           onChange={(e) => {
             const title = e.target.value;
+
             setForm({
               ...form,
               title,
@@ -195,19 +223,26 @@ const updatePost = async () => {
           placeholder="Description"
           value={form.description}
           onChange={(e) =>
-            setForm({ ...form, description: e.target.value })
+            setForm({
+              ...form,
+              description: e.target.value,
+            })
           }
         />
 
         <textarea
+          className="contentTextarea"
           placeholder="Content"
           value={form.content}
           onChange={(e) =>
-            setForm({ ...form, content: e.target.value })
+            setForm({
+              ...form,
+              content: e.target.value,
+            })
           }
         />
 
-        {/* IMAGE UPLOAD */}
+        {/* IMAGE */}
         <input type="file" onChange={handleUpload} />
 
         {uploading && <p>Đang upload...</p>}
@@ -215,11 +250,8 @@ const updatePost = async () => {
         {form.thumbnail && (
           <img
             src={form.thumbnail}
-            style={{
-              width: "100%",
-              borderRadius: 10,
-              marginTop: 10,
-            }}
+            alt=""
+            className="previewImage"
           />
         )}
 
@@ -227,7 +259,10 @@ const updatePost = async () => {
           placeholder="Meta title"
           value={form.meta_title}
           onChange={(e) =>
-            setForm({ ...form, meta_title: e.target.value })
+            setForm({
+              ...form,
+              meta_title: e.target.value,
+            })
           }
         />
 
@@ -257,7 +292,10 @@ const updatePost = async () => {
           placeholder="Category"
           value={form.category}
           onChange={(e) =>
-            setForm({ ...form, category: e.target.value })
+            setForm({
+              ...form,
+              category: e.target.value,
+            })
           }
         />
 
@@ -265,21 +303,27 @@ const updatePost = async () => {
           placeholder="OG Image"
           value={form.og_image}
           onChange={(e) =>
-            setForm({ ...form, og_image: e.target.value })
+            setForm({
+              ...form,
+              og_image: e.target.value,
+            })
           }
         />
 
         <select
           value={form.status}
           onChange={(e) =>
-            setForm({ ...form, status: e.target.value })
+            setForm({
+              ...form,
+              status: e.target.value,
+            })
           }
         >
           <option value="published">Hiển thị</option>
           <option value="hidden">Ẩn</option>
         </select>
 
-        <label>
+        <label className="checkbox">
           <input
             type="checkbox"
             checked={form.featured}
@@ -290,10 +334,14 @@ const updatePost = async () => {
               })
             }
           />
+
           Featured
         </label>
 
-        <button onClick={updatePost} disabled={loading}>
+        <button
+          onClick={updatePost}
+          disabled={loading}
+        >
           {loading ? "Đang lưu..." : "Cập nhật"}
         </button>
       </div>
