@@ -89,7 +89,49 @@
 
   margin: 20px 0;
 }
+/* ================= PRICE ================= */
 
+.priceBox {
+  margin-bottom: 28px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.priceLabel {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+
+  color: #888;
+  font-weight: 600;
+}
+
+.priceValue {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+
+  font-size: 42px;
+  font-weight: 800;
+
+  line-height: 1;
+
+  background: linear-gradient(
+    135deg,
+    #3aa0ff,
+    #ff4d8d
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.currency {
+  font-size: 20px;
+  margin-bottom: 4px;
+}
 /* MOBILE */
 @media (max-width: 768px) {
   .page {
@@ -97,7 +139,13 @@
     padding-left: 16px;
     padding-right: 16px;
   }
+  .priceValue {
+    font-size: 34px;
+  }
 
+  .currency {
+    font-size: 16px;
+  }
   .title {
     font-size: 28px;
   }

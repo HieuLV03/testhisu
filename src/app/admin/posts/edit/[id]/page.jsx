@@ -18,7 +18,7 @@ export default function EditPostPage() {
     slug: "",
     description: "",
     content: "",
-    thumbnail: "",
+    image: "",
     meta_title: "",
     meta_description: "",
     category: "",
@@ -107,8 +107,8 @@ export default function EditPostPage() {
         .getPublicUrl(fileName);
 
       // DELETE OLD IMAGE
-      if (form.thumbnail) {
-        const oldPath = getPathFromUrl(form.thumbnail);
+      if (form.image) {
+        const oldPath = getPathFromUrl(form.image);
 
         if (oldPath) {
           await supabase.storage
@@ -119,7 +119,7 @@ export default function EditPostPage() {
 
       setForm((prev) => ({
         ...prev,
-        thumbnail: data.publicUrl,
+        image: data.publicUrl,
       }));
     } catch (err) {
       console.log(err);
@@ -147,7 +147,7 @@ const updatePost = async () => {
         // LƯU HTML THẲNG
         content: form.content,
 
-        thumbnail: form.thumbnail,
+        image: form.image,
 
         meta_title: form.meta_title,
 
@@ -240,9 +240,9 @@ const updatePost = async () => {
 
         {uploading && <p>Đang upload...</p>}
 
-        {form.thumbnail && (
+        {form.image && (
           <img
-            src={form.thumbnail}
+            src={form.image}
             alt=""
             className="previewImage"
           />

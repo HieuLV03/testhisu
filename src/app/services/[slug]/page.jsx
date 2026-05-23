@@ -88,9 +88,26 @@ export default async function Page({
         {data.title}
       </h1>
 
-      <p className="desc">
-        {data.short_description}
-      </p>
+  <p className="desc">
+  {data.short_description}
+</p>
+
+{/* PRICE */}
+{data.price && (
+  <div className="priceBox">
+    <span className="priceLabel">
+      Giá dịch vụ
+    </span>
+
+    <div className="priceValue">
+      {Number(data.price).toLocaleString("vi-VN")}
+
+      <span className="currency">
+        đ
+      </span>
+    </div>
+  </div>
+)}
 
       {data.image && (
         <img
