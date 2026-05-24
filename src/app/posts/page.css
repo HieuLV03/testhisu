@@ -85,6 +85,8 @@ body {
   gap: 12px;
   justify-content: center;
   flex-wrap: wrap;
+      flex-direction: column;
+
 }
 
 .btnPrimary {
@@ -420,7 +422,3 @@ body {
   object-fit: cover;
   display: block;
 }
-
-  .heroActions {
-    flex-direction: column;
-  }
