@@ -21,7 +21,7 @@ export default async function sitemap() {
   if (postError || serviceError) {
     return [
       {
-        url: "https://thammyvienhisu.online",
+        url: "https://testhisu.vercel.app",
         lastModified: new Date(),
       },
     ];
@@ -29,7 +29,7 @@ export default async function sitemap() {
 
   // POSTS URLS
   const postUrls = posts.map((post) => ({
-    url: `https://thammyvienhisu.online/posts/${post.slug}`,
+    url: `https://testhisu.vercel.app/posts/${post.slug}`,
     lastModified:
       post.updated_at || new Date(),
     changeFrequency: "weekly",
@@ -39,7 +39,7 @@ export default async function sitemap() {
   // SERVICES URLS
   const serviceUrls = services.map(
     (service) => ({
-      url: `https://thammyvienhisu.online/services/${service.slug}`,
+      url: `https://testhisu.vercel.app/services/${service.slug}`,
       lastModified:
         service.updated_at || new Date(),
       changeFrequency: "weekly",
@@ -49,21 +49,21 @@ export default async function sitemap() {
 
   return [
     {
-      url: "https://thammyvienhisu.online",
+      url: "https://testhisu.vercel.app",
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 1,
     },
 
     {
-      url: "https://thammyvienhisu.online/posts",
+      url: "https://testhisu.vercel.app/posts",
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 0.9,
     },
 
     {
-      url: "https://thammyvienhisu.online/services",
+      url: "https://testhisu.vercel.app/services",
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 0.9,
