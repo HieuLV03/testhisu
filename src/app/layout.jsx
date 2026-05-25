@@ -7,7 +7,7 @@ import BookingButton from "@/components/BookingButton/BookingButton";
 
 export const metadata = {
   metadataBase: new URL(
-    "https://thammyvienhisu.online.app"
+    "https://thammyvienhisu.online"
   ),
 
   title: {
